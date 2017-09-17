@@ -49,12 +49,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="Base\BaseCli.cs" />
+    <Compile Include="Base\BaseSTAG_INT.cs" />
+    <Compile Include="Migrations\201709170326146_CriandoBaseCliente.cs" />
+    <Compile Include="Migrations\201709170326146_CriandoBaseCliente.Designer.cs">
+      <DependentUpon>201709170326146_CriandoBaseCliente.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="PmWebCliente.cs" />
+    <Compile Include="PmWebContexto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\HospedeRepository.cs" />
+    <Compile Include="Repositories\PessoaRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PmWeb.Modelo\PmWeb.Modelo.csproj">
+      <Project>{0edd7ce4-fd77-402c-ad5c-d0fb1faff87e}</Project>
+      <Name>PmWeb.Modelo</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201709170326146_CriandoBaseCliente.resx">
+      <DependentUpon>201709170326146_CriandoBaseCliente.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
