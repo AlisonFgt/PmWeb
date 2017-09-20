@@ -12,7 +12,7 @@ namespace PmWeb.Entity.Base
             using (var db = new PmWebContexto())
             {
                 db.Hospedes.AddOrUpdate(
-                    new Hospede { IDHospede = "73F", Email = "armando @teste.com.br", Nome = "Armando", DataNascimento = DateTime.Parse("01/03/1990"), DataHospedagem = DateTime.Parse("10/02/2017") },
+                    new Hospede { IDHospede = "73F", Email = "armando@teste.com.br", Nome = "Armando", DataNascimento = DateTime.Parse("01/03/1990"), DataHospedagem = DateTime.Parse("10/02/2017") },
                     new Hospede { IDHospede = "33W", Email = "joao@joao.com.br", Nome = "João", DataNascimento = DateTime.Parse("21/01/1984"), DataHospedagem = DateTime.Parse("10/02/2017") },
                     new Hospede { IDHospede = "12D", Email = "jose@jose.com.br", Nome = "José", DataHospedagem = DateTime.Parse("10/02/2017") },
                     new Hospede { IDHospede = "43F", Email = "maico@terra.com.br", Nome = "Maico", DataNascimento = DateTime.Parse("22/11/1990"), DataHospedagem = DateTime.Parse("10/02/2017") },

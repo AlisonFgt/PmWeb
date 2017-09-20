@@ -1,4 +1,5 @@
 ﻿using PmWeb.Entidades;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -23,6 +24,11 @@ namespace PmWeb.Entity.Repositories
         public Pessoa GetById(int id)
         {
             return Db.Set<Pessoa>().Find(id);
+        }
+
+        public Pessoa GetByEmail(string email)
+        {
+            return Db.Set<Pessoa>().Where(p => p.Email.Equals(email, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault();
         }
 
         public int GetNextId()

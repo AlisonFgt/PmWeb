@@ -2,6 +2,8 @@
 using PmWeb.Entidades;
 using PmWeb.Entity.Repositories;
 using System;
+using System.IO;
+using System.Linq;
 
 namespace PmWeb.Core.Jobs
 {
@@ -17,18 +19,43 @@ namespace PmWeb.Core.Jobs
 
         public override void DoJob()
         {
-            System.Console.WriteLine(String.Format(DataAtual() + " -- Atualizar Tabela Pessoa. Executado pela " + counter.ToString() + "° vez", this.GetName()));
+            InformarOUsuario();
+            AtualizarTabelaPessoa();
+            ExportarExcelPessoas();
+            ExportarExcelHospedagens(); // não foi solicitado porém estou exportando somente para visualização...
+            System.Console.WriteLine(String.Format(DataAtual() + " - O processo de ETL(Momento T1) executou com sucesso, repetirá em 1 dia.", this.GetName()));
             System.Console.WriteLine();
-            AtualizarTabelaPessoa();            
-            System.Console.WriteLine(String.Format(DataAtual() + " -- O Job \"{0}\" foi executado com sucesso, repetira em 1 minuto.", this.GetName()));
+            System.Console.WriteLine(String.Format(DataAtual() + " - Excel de Pessoas e Hospedes foi exportado para o caminho: {0}", Directory.GetCurrentDirectory()));
             System.Console.WriteLine();
             counter++;
         }
 
+        private void InformarOUsuario()
+        {
+            System.Console.WriteLine(String.Format(DataAtual() + " - Atualizar Tabela pessoas, executado pela " + counter.ToString() + "° vez", this.GetName()));
+            System.Console.WriteLine();
+            System.Console.WriteLine(DataAtual() + " - Agora começa o processo de ETL(Momento T1)");
+            System.Console.WriteLine();
+        }
+
+        private void ExportarExcelHospedagens()
+        {
+            var hospedes = hospedeRepository.GetAll().ToList();
+            string[] colunasIgnoradas = { "" };
+            byte[] filecontent = PmWeb.Core.Excel.Excel.ExportaExcel(hospedes, "Hospedes", true, colunasIgnoradas);
+            File.WriteAllBytes(string.Format("{0}_MomentoT1_Hospedes.xlsx", DateTime.Now.ToString("dd_MM_HH_mm").ToString()), filecontent);
+        }
+
+        private void ExportarExcelPessoas()
+        {
+            var pessoas = pessoaRepository.GetAll().ToList();
+            string[] colunasIgnoradas = { "" };
+            byte[] filecontent = PmWeb.Core.Excel.Excel.ExportaExcel(pessoas, "Pessoas", true, colunasIgnoradas);
+            File.WriteAllBytes(string.Format("{0}_MomentoT1_Pessoas.xlsx", DateTime.Now.ToString("dd_MM_HH_mm").ToString()), filecontent);
+        }
+
         private void AtualizarTabelaPessoa()
         {
-            
-
             var hospedes = hospedeRepository.GetAll();
 
             foreach (var hospede in hospedes)
@@ -45,14 +72,17 @@ namespace PmWeb.Core.Jobs
         private void AtualizaPessoa(Pessoa pessoa, Hospede hospede)
         {
             if(!pessoa.UltimaHospedagem.Equals(hospede.DataHospedagem) && pessoa.UltimaHospedagem < hospede.DataHospedagem)
-            {
-                pessoa.UltimaHospedagem = hospede.DataHospedagem;
                 pessoa.QtdeHospedag++;
-                pessoa.DataCadastro = DateTime.Now;
-                pessoa.DataAtualizacao = DateTime.Now;
 
-                pessoaRepository.Update(pessoa);
-            }
+            if (hospede.DataNascimento != null)
+                pessoa.DataNascimento = hospede.DataNascimento;
+
+            pessoa.UltimaHospedagem = hospede.DataHospedagem;
+            pessoa.DataAtualizacao = DateTime.Now;
+            
+
+
+            pessoaRepository.Update(pessoa);
         }
 
         private void CriaPessoa(Hospede hospede)
@@ -60,8 +90,8 @@ namespace PmWeb.Core.Jobs
             var pessoa = new Pessoa
             {
                 ID = pessoaRepository.GetNextId(),
-                DataAtualizacao = DateTime.Now,
                 DataCadastro = DateTime.Now,
+                DataAtualizacao = DateTime.Now,
                 DataNascimento = hospede.DataNascimento,
                 Email = hospede.Email,
                 IdExterno = hospede.IDHospede,
@@ -80,8 +110,8 @@ namespace PmWeb.Core.Jobs
 
         public override int GetRepetitionIntervalTime()
         {
-            // 1 minuto
-            return 60000;
+            // 1 dia
+            return 86400000;
         }
     }
 }
