@@ -24,17 +24,16 @@ namespace PmWeb.Core
 
         private static void MensagensAoUsuario()
         {
-            Console.ForegroundColor = ConsoleColor.DarkGreen;
-            Console.WriteLine("Bem vindo!");
-            Console.WriteLine();
-            Console.WriteLine("Sistema projetado por Alison Machado Alves");
+            Console.WriteLine("Bem vindo!   Sistema projetado por Alison Machado Alves");
             Console.WriteLine();
             Console.WriteLine(DataAtual() + " -- Ligando o Scheduler para momentos T1 e T2 aguarde...");
             Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
             Console.WriteLine("Aproveite e acesse meu site http://alisonalves.com/");
             Console.WriteLine();
-            Console.WriteLine("Projeto também hospedado no GitHub https://github.com/AlisonFgt/PmWeb");
+            Console.WriteLine("Projeto hospedado no GitHub https://github.com/AlisonFgt/PmWeb");
             Console.WriteLine();
+            Console.ResetColor();
         }
 
         private static void AlimentaDadosDefault()
