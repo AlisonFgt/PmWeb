@@ -42,7 +42,7 @@ namespace PmWeb.Core
             BaseSTAG_INT.CarregarDadosDefault();
         }
 
-        private static string DataAtual()
+        protected static string DataAtual()
         {
             CultureInfo cult = new CultureInfo("pt-BR");
             string dta = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", cult);

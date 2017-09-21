@@ -74,15 +74,13 @@ namespace PmWeb.Core.Jobs
 
         private void AtualizaPessoa(Pessoa pessoa, string[] words)
         {
-            pessoa.Nome = words[1];
-            pessoa.UltimaHospedagem = DateTime.Parse(words[2]);
-            pessoa.DataAtualizacao = DateTime.Now;
+            pessoa = Pessoa.AtualizaPessoa(pessoa, words);
             pessoaRepository.Update(pessoa);
         }
 
         private void CriaPessoa(string[] words)
         {
-            Pessoa novaPessoa = new Pessoa { ID = pessoaRepository.GetNextId(), DataCadastro = DateTime.Now, Email = words[0], Nome = words[1], UltimaHospedagem = DateTime.Parse(words[2]), DataAtualizacao = DateTime.Now };
+            var novaPessoa = Pessoa.CriaPessoa(pessoaRepository.GetNextId(), words);
             pessoaRepository.Add(novaPessoa);
         }
 

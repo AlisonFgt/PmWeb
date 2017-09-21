@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 
-namespace PmWeb.Core.ExtensionMethods
+namespace PmWeb.Core.Extensions
 {
     public static class EnumExtensions
 	{

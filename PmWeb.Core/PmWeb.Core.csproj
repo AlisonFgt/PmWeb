@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Excel\Excel.cs" />
+    <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Jobs\MomentoT1Job.cs" />
     <Compile Include="Jobs\MomentoT2Job.cs" />

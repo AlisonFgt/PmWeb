@@ -71,35 +71,13 @@ namespace PmWeb.Core.Jobs
 
         private void AtualizaPessoa(Pessoa pessoa, Hospede hospede)
         {
-            if(!pessoa.UltimaHospedagem.Equals(hospede.DataHospedagem) && pessoa.UltimaHospedagem < hospede.DataHospedagem)
-                pessoa.QtdeHospedag++;
-
-            if (hospede.DataNascimento != null)
-                pessoa.DataNascimento = hospede.DataNascimento;
-
-            pessoa.UltimaHospedagem = hospede.DataHospedagem;
-            pessoa.DataAtualizacao = DateTime.Now;
-            
-
-
+            pessoa = Pessoa.AtualizaPessoa(pessoa, hospede);
             pessoaRepository.Update(pessoa);
         }
 
         private void CriaPessoa(Hospede hospede)
         {
-            var pessoa = new Pessoa
-            {
-                ID = pessoaRepository.GetNextId(),
-                DataCadastro = DateTime.Now,
-                DataAtualizacao = DateTime.Now,
-                DataNascimento = hospede.DataNascimento,
-                Email = hospede.Email,
-                IdExterno = hospede.IDHospede,
-                Nome = hospede.Nome,
-                QtdeHospedag = 1,
-                UltimaHospedagem = hospede.DataHospedagem
-            };
-
+            var pessoa = Pessoa.CriaPessoa(pessoaRepository.GetNextId(), hospede);
             pessoaRepository.Add(pessoa);
         }
 

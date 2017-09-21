@@ -1,6 +1,6 @@
 ﻿using OfficeOpenXml;
 using OfficeOpenXml.Style;
-using PmWeb.Core.ExtensionMethods;
+using PmWeb.Core.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
